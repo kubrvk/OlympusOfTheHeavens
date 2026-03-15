@@ -3,7 +3,7 @@
 > **Isometric co-op action RPG** — Unreal Engine 5.3 · C++ · Solo Development  
 > [Steam Page](https://store.steampowered.com/app/3358020/Olympus_of_the_Heavens) · [ArtStation](https://www.artstation.com/kubrik)
 
----
+![image](https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3358020/5835d3278c7a8838d878ada77a514f6e0a468b4b/library_header.jpg?t=1739608354)
 
 ## Overview
 
@@ -113,6 +113,7 @@ void UFlameInventoryComponent::IgniteAscension()
 ---
 
 ### 2. Procedural Generation System
+![image](https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3358020/ss_f0ac4bb109e2a53d83bd3e8519ba083bbb0b6bf7.800x600.jpg)
 
 Temple layouts, encounter configurations, loot distributions, and floating land structures are generated using a seeded procedural system.
 
@@ -158,6 +159,7 @@ void ATempleGenerator::GenerateLayout(int32 Seed, UTempleBiomeDataAsset* Biome)
 ---
 
 ### 3. Combat System
+![image](https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3358020/ss_e63f7a98f3be75a3d2f100bccfd56872d73cf086.800x600.jpg)
 
 Combat is designed for isometric twin-stick style — responsive, combo-driven, with dodge as a core defensive tool. All combat logic is server-authoritative in co-op.
 
@@ -185,6 +187,7 @@ Combat is designed for isometric twin-stick style — responsive, combo-driven, 
 ---
 
 ### 4. Boss System — The 12 Olympians
+![image](https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3358020/ss_daf1b09592236f1dbc224665536f2e0e8e03cc5f.800x600.jpg)
 
 Each boss (`AOlympianBossBase`) is a subclass with individual behavior trees, phase configurations, and attack pattern sets. The framework is shared; boss-specific logic is contained in overrides and data assets.
 
@@ -212,6 +215,7 @@ Each boss (`AOlympianBossBase`) is a subclass with individual behavior trees, ph
 ---
 
 ### 5. Skill Tree System
+![image](https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3358020/ss_df37c4f8a9a3635f22820f362029547a436e2b0f.800x600.jpg)
 
 The skill tree is a node graph structure allowing player-directed build customization across combat style archetypes: melee, ranged, and magic.
 
@@ -233,6 +237,7 @@ The skill tree is a node graph structure allowing player-directed build customiz
 ---
 
 ### 6. Equipment & Artifact System
+![image](https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3358020/ss_a9ff185aa054e66af4bf37558cf827475819e1a7.800x600.jpg)
 
 **Equipment Slots:**
 
@@ -376,6 +381,7 @@ Floating land areas serve as the overworld between temples — exploration zones
 
 [Steam](https://store.steampowered.com/search/?developer=Kubrik) · [ArtStation](https://www.artstation.com/kubrik) · [itch.io](https://kubrik.itch.io)
 
+![image](https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3358020/702941c01097adfa11c36d6a16a2b609942d80c4/library_hero.jpg?t=1739608354)
 ---
 
-*All code, art, design, and marketing assets produced by a single developer. No third-party gameplay code or purchased asset packs used in core systems.*
+*All code, design, and custom assets produced by a single developer. No third-party gameplay code used in core systems.*
