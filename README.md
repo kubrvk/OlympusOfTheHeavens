@@ -5,15 +5,15 @@
 
 ![](https://img.shields.io/badge/Isometric-30651f?style=) ![](https://img.shields.io/badge/Co--op-588580?style=) ![](https://img.shields.io/badge/ARPG-9f5f43?style=) ![C++](https://img.shields.io/badge/C++-00599C?style=logo=c%2B%2B&logoColor=white)  ![C++](https://img.shields.io/badge/Unreal_Engine_5.3-0E1128?style=for-the-badges&logo=unrealengine&logoColor=white)  ![C++](https://img.shields.io/badge/Status-Shipped-success?style=for-the-badges) 
 <br>
-An isometric co-op action RPG. Ascend through 12 god temples, defeating bosses, seize their sacred flames. Boss-rush loop with deep customization, skill trees, equipment, artifacts, and crafting, procedural generation for structural variety across runs.
+Olympus of the Heavens is an isometric co-op action RPG built in Unreal Engine 5.3 using C++. Players ascend through a series of god-specific temples, each housing one of the 12 Olympian bosses, defeat them to seize their sacred flames, and build toward a final ascension. The game is structured around a **boss-rush loop** with deep character build customization , skill trees, equipment layering, artifact systems, and a crafting pipeline , combined with a procedural generation system that ensures structural variety across runs.
+
+Multiplayer co-op is implemented via the Steam Online Subsystem with full session management, server-authoritative gameplay state, and synchronized procedural seed distribution. All gameplay systems, boss AI, environment assets, shaders, UI, and tooling were developed by a single developer.
+
 <br clear="left"/>
 <p align="center">
 <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3358020/ss_8d80a90ad931ba6ed7ff385bb6f22b5ce9bd6eb9.1920x1080.jpg?t=1739608365" width="25%"/><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3358020/ss_a461702d47a55fb927acfa99547b7f42308304c7.1920x1080.jpg?t=1739608365" width="25%"/><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3358020/ss_e63f7a98f3be75a3d2f100bccfd56872d73cf086.1920x1080.jpg?t=1739608365" width="25%"/><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3358020/ss_a9ff185aa054e66af4bf37558cf827475819e1a7.1920x1080.jpg?t=1739608365" width="25%"/>
 </p>
 
-Olympus of the Heavens is an isometric co-op action RPG built in Unreal Engine 5.3 using C++. Players ascend through a series of god-specific temples, each housing one of the 12 Olympian bosses, defeat them to seize their sacred flames, and build toward a final ascension. The game is structured around a **boss-rush loop** with deep character build customization — skill trees, equipment layering, artifact systems, and a crafting pipeline — combined with a procedural generation system that ensures structural variety across runs.
-
-Multiplayer co-op is implemented via the Steam Online Subsystem with full session management, server-authoritative gameplay state, and synchronized procedural seed distribution. All gameplay systems, boss AI, environment assets, shaders, UI, and tooling were developed by a single developer.
 
 ---
 
@@ -26,11 +26,11 @@ Multiplayer co-op is implemented via the Steam Online Subsystem with full sessio
 | Scripting / Prototyping | Unreal Blueprint (UI, Sequencer cutscenes) |
 | Rendering | Lumen (dynamic GI), custom isometric camera rig |
 | AI | Unreal Behavior Tree + custom C++ task/decorator nodes |
-| Networking | Steam Online Subsystem — listen-server, session management |
-| Physics | Chaos — physics-driven combat props, destructibles |
+| Networking | Steam Online Subsystem , listen-server, session management |
+| Physics | Chaos , physics-driven combat props, destructibles |
 | Replication | UE Actor Replication, `UPROPERTY(Replicated)`, RPCs |
 | Platform | PC (Win64/Linux), Steam SDK |
-| 3D Pipeline | ZBrush → Maya → Substance Painter → UE5 |
+| 3D Pipeline | ZBrush , Maya , Substance Painter , UE5 |
 | Shader Authoring | UE Material Editor + HLSL custom nodes |
 
 ---
@@ -79,13 +79,13 @@ OlympusOfTheHeavens/
 
 ### 1. Divine Flame System
 
-The Flame System is the primary progression currency and power amplifier. Each of the 12 Olympian gods drops a `FDivineFlame` on defeat — a typed resource representing the god's domain.
+The Flame System is the primary progression currency and power amplifier. Each of the 12 Olympian gods drops a `FDivineFlame` on defeat , a typed resource representing the god's domain.
 
 **Flame Architecture:**
 - `FDivineFlame` struct: `EGodType GodOwner`, `float FlamePower`, `TArray<FFlameEffect> GrantedEffects`.
-- Flame effects are data-driven via `UFlameEffectDataAsset` — each defines a stat modifier, a passive ability unlock, or a combat property override.
+- Flame effects are data-driven via `UFlameEffectDataAsset` , each defines a stat modifier, a passive ability unlock, or a combat property override.
 - Flames are stored in `UFlameInventoryComponent` on the player, replicated via `UPROPERTY(Replicated)`.
-- **Ignition mechanic**: Once a player holds a minimum flame count threshold, they can spend flames to activate the personal ascension state — a time-limited power amplification mode that scales with total collected flame power.
+- **Ignition mechanic**: Once a player holds a minimum flame count threshold, they can spend flames to activate the personal ascension state , a time-limited power amplification mode that scales with total collected flame power.
 
 ```cpp
 void UFlameInventoryComponent::IgniteAscension()
@@ -110,7 +110,7 @@ void UFlameInventoryComponent::IgniteAscension()
 ```
 
 **Co-op Flame Handling:**
-- Flames are player-owned resources — each co-op participant collects independently.
+- Flames are player-owned resources , each co-op participant collects independently.
 - On boss defeat, server broadcasts `OnGodDefeated` via `AOlympusGameState`; each client's `UFlameInventoryComponent` receives the flame grant via client RPC.
 - `AOlympusGameState::DefeatedGods` is a replicated `TArray<EGodType>` used to gate temple access globally for all players in session.
 
@@ -123,11 +123,11 @@ Temple layouts, encounter configurations, loot distributions, and floating land 
 
 **Seed Distribution in Co-op:**
 - `GlobalSeed` is generated by the server host at session start and stored in `AOlympusGameState` as a replicated `int32`.
-- All clients receive the same seed on join; procedural generation runs identically on all machines — deterministic, no generation data transmitted after seed sync.
+- All clients receive the same seed on join; procedural generation runs identically on all machines , deterministic, no generation data transmitted after seed sync.
 - `FRandomStream` instances are derived per-zone: `FRandomStream TempleStream(GlobalSeed + (int32)GodType)`.
 
 **Temple Layout Generation:**
-- Each temple is built from modular room segments defined in `UTempleBiomeDataAsset` — room prefabs, connector pieces, dead ends, and arena chambers.
+- Each temple is built from modular room segments defined in `UTempleBiomeDataAsset` , room prefabs, connector pieces, dead ends, and arena chambers.
 - A recursive corridor generation algorithm selects rooms from the biome asset's weighted mesh table, placing and connecting them until a minimum room count and mandatory arena chamber are satisfied.
 - Room connections validated against an adjacency matrix to prevent isolated segments.
 
@@ -157,7 +157,7 @@ void ATempleGenerator::GenerateLayout(int32 Seed, UTempleBiomeDataAsset* Biome)
 
 **Encounter & Loot Seeding:**
 - Enemy spawn tables selected from `UEncounterDataAsset` weighted arrays using per-room stream offsets.
-- Loot containers distributed via `FLootSpawnConfig` — seeded placement within room bounds, rarity tier selection using `FWeightedRandomSampler`.
+- Loot containers distributed via `FLootSpawnConfig` , seeded placement within room bounds, rarity tier selection using `FWeightedRandomSampler`.
 - Hidden treasure locations seeded separately: `FRandomStream HiddenStream(GlobalSeed + RoomIndex + 9999)`.
 
 ---
@@ -165,13 +165,13 @@ void ATempleGenerator::GenerateLayout(int32 Seed, UTempleBiomeDataAsset* Biome)
 ### 3. Combat System
 ![image](https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3358020/ss_e63f7a98f3be75a3d2f100bccfd56872d73cf086.800x600.jpg)
 
-Combat is designed for isometric twin-stick style — responsive, combo-driven, with dodge as a core defensive tool. All combat logic is server-authoritative in co-op.
+Combat is designed for isometric twin-stick style , responsive, combo-driven, with dodge as a core defensive tool. All combat logic is server-authoritative in co-op.
 
 **Attack Chain System:**
 - Combo sequences defined as `TArray<UAnimMontage*>` per weapon type.
 - Input buffer window: attack input within the configured frame window queues the next combo step.
 - Chain advancement is notify-driven: `AnimNotify_ComboOpen` opens the buffer; `AnimNotify_ComboClose` resets if no input received.
-- Combo branch points allow directional divergence — holding a direction during the combo window selects an alternate montage branch.
+- Combo branch points allow directional divergence , holding a direction during the combo window selects an alternate montage branch.
 
 **Dodge System:**
 - Dodge is an i-frame window implemented via `bInvulnerable` flag on `UCombatComponent`, timed via `FTimerHandle`.
@@ -181,16 +181,16 @@ Combat is designed for isometric twin-stick style — responsive, combo-driven, 
 **Hit Detection:**
 - Melee: swept capsule/box trace per attack frame, defined by weapon's `FHitboxConfig` (shape, offset, extent, active frame range).
 - Ranged/Magic: `AProjectileBase` subclasses with `UProjectileMovementComponent`; hit resolved on server.
-- Damage pipeline: `UGameplayStatics::ApplyDamage` → boss/enemy `TakeDamage` override → `UCombatComponent::ResolveDamage` applies resistance, elemental modifiers, and crit roll.
+- Damage pipeline: `UGameplayStatics::ApplyDamage` , boss/enemy `TakeDamage` override , `UCombatComponent::ResolveDamage` applies resistance, elemental modifiers, and crit roll.
 
 **Elemental & Status Effects:**
 - Damage types mapped to `EElementType` enum: Physical, Lightning (Zeus), Shadow (Hades), Water (Poseidon), Fire (Hephaestus), etc.
-- Each boss and enemy has `TMap<EElementType, float> ElementalResistance` — multipliers applied at damage resolution.
+- Each boss and enemy has `TMap<EElementType, float> ElementalResistance` , multipliers applied at damage resolution.
 - Status effects (burn, stun, slow) implemented as `UStatusEffectComponent` on target; each effect is a `FStatusEffectData` struct with duration, tick rate, and tick effect.
 
 ---
 
-### 4. Boss System — The 12 Olympians
+### 4. Boss System , The 12 Olympians
 ![image](https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3358020/ss_daf1b09592236f1dbc224665536f2e0e8e03cc5f.800x600.jpg)
 
 Each boss (`AOlympianBossBase`) is a subclass with individual behavior trees, phase configurations, and attack pattern sets. The framework is shared; boss-specific logic is contained in overrides and data assets.
@@ -208,13 +208,13 @@ Each boss (`AOlympianBossBase`) is a subclass with individual behavior trees, ph
 **Add Spawning:**
 - Some bosses spawn minion waves at phase transitions.
 - `ABossArenaManager` monitors the arena and triggers `SpawnEncounterWave` on phase change.
-- Minion counts and types sourced from `FWaveConfig` data assets — compatible with the procedural encounter system.
+- Minion counts and types sourced from `FWaveConfig` data assets , compatible with the procedural encounter system.
 
 **God-Specific Temple Design:**
 - Each god's temple uses a dedicated `UTempleBiomeDataAsset` controlling room mesh sets, lighting color grading, material parameter overrides, and ambient Niagara systems.
 - Zeus temple: exposed storm platforms, high vertical ceiling, lightning strike hazard zones as `ATriggerVolume` with damage-over-time.
 - Hades temple: enclosed shadowed corridors, low visibility (Lumen exposure tuned down), shadow entity adds.
-- Biome overlays applied via `APostProcessVolume` swaps on zone entry — each god domain has a unique color grade and fog configuration.
+- Biome overlays applied via `APostProcessVolume` swaps on zone entry , each god domain has a unique color grade and fog configuration.
 
 ---
 
@@ -225,18 +225,18 @@ The skill tree is a node graph structure allowing player-directed build customiz
 
 **Node Graph Architecture:**
 - Skill nodes defined in `USkillNodeDataAsset`: node type (passive stat, active ability, combat modifier), unlock cost (flame/currency), prerequisite node list, and effect config.
-- `USkillTreeComponent` maintains the player's node graph state as a `TMap<FName, FSkillNodeState>` — keyed by node ID, value tracking unlock status.
+- `USkillTreeComponent` maintains the player's node graph state as a `TMap<FName, FSkillNodeState>` , keyed by node ID, value tracking unlock status.
 - Prerequisite validation: on unlock attempt, component traverses `PrerequisiteNodes` array and confirms all are unlocked before granting.
-- Unlocked passives are accumulated into a `FStatModifierSet` applied to the player's `UStatComponent` — all stat derivations read from this set rather than discrete variables.
+- Unlocked passives are accumulated into a `FStatModifierSet` applied to the player's `UStatComponent` , all stat derivations read from this set rather than discrete variables.
 
 **Active Abilities:**
 - Active skill nodes grant abilities managed by `UAbilityManagerComponent`.
-- Abilities are `UAbilityBase` subclasses — implementing `Activate()`, `OnCooldownEnd()`, and `GetAbilityInfo()`.
+- Abilities are `UAbilityBase` subclasses , implementing `Activate()`, `OnCooldownEnd()`, and `GetAbilityInfo()`.
 - Ability slots on the HUD are bound to input actions; slot count scales with player progression.
 
 **Build Persistence:**
 - Skill tree state serialized into `FOlympusPlayerSaveData` alongside equipment loadout.
-- In co-op, skill tree is local to each player — not synchronized across session (each player builds independently).
+- In co-op, skill tree is local to each player , not synchronized across session (each player builds independently).
 
 ---
 
@@ -254,16 +254,16 @@ The skill tree is a node graph structure allowing player-directed build customiz
 
 - All items defined via `UItemDataAsset`: stat block, item type tags, mesh reference, rarity tier, and effect list.
 - Set bonuses: `UEquipmentComponent` evaluates active set tags on equip/unequip; broadcasts `OnSetBonusActivated` when threshold count reached.
-- **Artifacts**: Rarer items with unique `FArtifactEffect` structs — may override combat behaviors (e.g., projectile bouncing, AoE on dodge, elemental conversion).
+- **Artifacts**: Rarer items with unique `FArtifactEffect` structs , may override combat behaviors (e.g., projectile bouncing, AoE on dodge, elemental conversion).
 
 **Loot Rarity Tiers:**
 
 ```
-Common → Uncommon → Rare → Epic → Legendary → Divine (god-drop exclusive)
+Common , Uncommon , Rare , Epic , Legendary , Divine (god-drop exclusive)
 ```
 
 - Rarity determined at drop time using weighted `FLootRarityTable` seeded from room/encounter stream.
-- Divine-tier items only drop from Olympian boss defeats — one per boss, guaranteed.
+- Divine-tier items only drop from Olympian boss defeats , one per boss, guaranteed.
 
 ---
 
@@ -271,7 +271,7 @@ Common → Uncommon → Rare → Epic → Legendary → Divine (god-drop exclusi
 
 - Recipes defined in `UCraftingRecipeDataAsset`: required `TArray<FMaterialRequirement>` (item type + count), output item data asset reference, and crafting station type tag.
 - `UCraftingComponent` on the player evaluates `UInventoryComponent` contents against recipe requirements.
-- Crafting station actors (`ACraftingStationActor`) placed in floating land areas and temple approach zones — interact to open `UCraftingWidget`.
+- Crafting station actors (`ACraftingStationActor`) placed in floating land areas and temple approach zones , interact to open `UCraftingWidget`.
 - Material items are world-drop and boss-drop sourced; rarer materials gated behind higher temple progression.
 - Upgrade recipes allow existing equipment to be enhanced: `FUpgradeConfig` on item data defines material cost per upgrade tier, stat multipliers per tier, and max tier.
 
@@ -287,7 +287,7 @@ Common → Uncommon → Rare → Epic → Legendary → Divine (god-drop exclusi
 **State Replication:**
 - `AOlympusGameState`: replicated `TArray<EGodType> DefeatedGods`, `int32 GlobalSeed`, `int32 CurrentTempleIndex`.
 - `AOlympusPlayerState`: replicated `UFlameInventoryComponent` data, player level, current stats.
-- Equipment loadout replicated via `UPROPERTY(Replicated)` on `UEquipmentComponent` — changes broadcast to all clients.
+- Equipment loadout replicated via `UPROPERTY(Replicated)` on `UEquipmentComponent` , changes broadcast to all clients.
 
 **Combat Replication:**
 - Attack inputs are local-predicted; damage resolution is server-authoritative.
@@ -296,10 +296,10 @@ Common → Uncommon → Rare → Epic → Legendary → Divine (god-drop exclusi
 
 **Movement Replication:**
 - Standard `UCharacterMovementComponent` replication with custom `FSavedMove` extension for dodge state and ability activation flags.
-- Isometric camera rig is client-local — not replicated; each player manages their own camera independently.
+- Isometric camera rig is client-local , not replicated; each player manages their own camera independently.
 
 **Procedural Sync:**
-- `GlobalSeed` transmitted to joining clients via `AOlympusGameState` replication — all world generation runs client-side from the same seed.
+- `GlobalSeed` transmitted to joining clients via `AOlympusGameState` replication , all world generation runs client-side from the same seed.
 - No geometry data transmitted; determinism guarantees identical world layout on all machines.
 
 ---
@@ -308,22 +308,22 @@ Common → Uncommon → Rare → Epic → Legendary → Divine (god-drop exclusi
 
 The camera is a dedicated `AOlympusCameraActor` managed by a custom `UPlayerCameraManager` override.
 
-- Fixed isometric angle: 45° horizontal rotation, 60° vertical pitch — configurable per temple via `FCameraConfig` data asset.
+- Fixed isometric angle: 45° horizontal rotation, 60° vertical pitch , configurable per temple via `FCameraConfig` data asset.
 - Camera position follows player with configurable `LagSpeed` via `UCameraLagComponent`.
 - In co-op: camera targets the average position of all living players within a maximum spread radius; if players exceed spread limit, each gets an independent camera instance.
-- Temple boss arenas lock camera to a fixed position/angle for the encounter — `ABossArenaManager` triggers `AOlympusCameraActor::SetArenaMode` on boss room entry.
+- Temple boss arenas lock camera to a fixed position/angle for the encounter , `ABossArenaManager` triggers `AOlympusCameraActor::SetArenaMode` on boss room entry.
 - Smooth interpolation between free-follow and arena-locked modes via `FInterpTo` on camera transform.
 
 ---
 
 ### 10. Floating Lands & Overworld
 
-Floating land areas serve as the overworld between temples — exploration zones with hidden loot, crafting stations, and optional encounters.
+Floating land areas serve as the overworld between temples , exploration zones with hidden loot, crafting stations, and optional encounters.
 
 - Land platforms generated via seeded `AFloatingLandGenerator`: platform count, size, elevation, and bridge connections seeded from `GlobalSeed + LandIndex`.
-- Each land area has a biome type drawn from `UFloatingLandBiomeDataAsset` — determines mesh sets, foliage density, ambient entities, and loot table.
+- Each land area has a biome type drawn from `UFloatingLandBiomeDataAsset` , determines mesh sets, foliage density, ambient entities, and loot table.
 - Hidden treasures: `AHiddenTreasureActor` instances placed at seeded locations; require interaction or solving a minor environmental puzzle to access.
-- Traversal: platforms connected by bridges or jump distances calibrated to character movement range; no flying or grapple — pure platforming navigation.
+- Traversal: platforms connected by bridges or jump distances calibrated to character movement range; no flying or grapple , pure platforming navigation.
 
 ---
 
@@ -341,7 +341,7 @@ Floating land areas serve as the overworld between temples — exploration zones
 | Target | Approach |
 |---|---|
 | 60 fps (PC, 1080p+, co-op 4-player) | LOD chains on all character and boss meshes; Nanite on static temple geo |
-| Network | Minimal RPC traffic — movement replicated via CMC; only attack/ability RPCs sent |
+| Network | Minimal RPC traffic , movement replicated via CMC; only attack/ability RPCs sent |
 | Procedural gen | All generation runs at session start, not at runtime during play; async loading for new temple zones |
 | AI | Behavior Tree updates throttled for off-screen adds; full tick only for boss and nearby enemies |
 | Lumen | Hardware RT on supported GPUs; software fallback tuned per biome for consistent performance |
@@ -356,7 +356,7 @@ Floating land areas serve as the overworld between temples — exploration zones
 | Developer count | 1 (solo) |
 | Engine | Unreal Engine 5.3 |
 | Languages | C++, HLSL |
-| 3D Assets | All original — modeled, textured, rigged, animated by developer |
+| 3D Assets | All original , modeled, textured, rigged, animated by developer |
 | Boss count | 12 Olympian gods + minion variants |
 | Gameplay systems | 11+ discrete systems (see above) |
 | Multiplayer | Steam co-op, up to 4 players |
@@ -369,17 +369,17 @@ Floating land areas serve as the overworld between temples — exploration zones
 
 | Project | Description |
 |---|---|
-| [TIME SOUL](https://store.steampowered.com/app/2928270/TIME_SOUL) | Souls-like action platformer; parkour, time-as-resource, procedural gen — UE5.1 |
-| [U.N. Owen Was Her](https://store.steampowered.com/app/3420540/UN_Owen_Was_Her) | Third-person horror; hunger/transformation AI, bullet-hell boss, seal progression — UE5.3 |
+| [TIME SOUL](https://store.steampowered.com/app/2928270/TIME_SOUL) | Souls-like action platformer; parkour, time-as-resource, procedural gen , UE5.1 |
+| [U.N. Owen Was Her](https://store.steampowered.com/app/3420540/UN_Owen_Was_Her) | Third-person horror; hunger/transformation AI, bullet-hell boss, seal progression , UE5.3 |
 | [Blood Garden](https://kubrik.itch.io/bloodgarden) | Souls-like melee combat; stamina system, parry, enemy AI |
 | [Royal Jump](https://play.google.com/store/apps/details?id=com.Kubrick.RoyalJump) | Mobile platformer; touch controls, physics movement, mobile optimization |
-| [ArtStation Portfolio](https://www.artstation.com/kubrik) | 3D modeling — characters, creatures, props, environments |
+| [ArtStation Portfolio](https://www.artstation.com/kubrik) | 3D modeling , characters, creatures, props, environments |
 
 ---
 
 ## Developer
 
-**Kubrik** — Developer & 3D Artist  
+**Kubrik** , Developer & 3D Artist  
 9 years web development · 7 years 3D modeling · 5 years Unreal Engine C++  
 5 shipped commercial games as sole developer.
 
