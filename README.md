@@ -8,7 +8,6 @@
 Olympus of the Heavens is an isometric co-op action RPG built in Unreal Engine 5.3 using C++. Players ascend through a series of god-specific temples, each housing one of the 12 Olympian bosses, defeat them to seize their sacred flames, and build toward a final ascension. The game is structured around a **boss-rush loop** with deep character build customization , skill trees, equipment layering, artifact systems, and a crafting pipeline , combined with a procedural generation system that ensures structural variety across runs.
 
 Multiplayer co-op is implemented via the Steam Online Subsystem with full session management, server-authoritative gameplay state, and synchronized procedural seed distribution. All gameplay systems, boss AI, environment assets, shaders, UI, and tooling were developed by a single developer.
-
 <br clear="left"/>
 <p align="center">
 <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3358020/ss_8d80a90ad931ba6ed7ff385bb6f22b5ce9bd6eb9.1920x1080.jpg?t=1739608365" width="25%"/><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3358020/ss_a461702d47a55fb927acfa99547b7f42308304c7.1920x1080.jpg?t=1739608365" width="25%"/><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3358020/ss_e63f7a98f3be75a3d2f100bccfd56872d73cf086.1920x1080.jpg?t=1739608365" width="25%"/><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3358020/ss_a9ff185aa054e66af4bf37558cf827475819e1a7.1920x1080.jpg?t=1739608365" width="25%"/>
@@ -17,7 +16,7 @@ Multiplayer co-op is implemented via the Steam Online Subsystem with full sessio
 
 ---
 
-## Engine & Technical Stack
+## Technical Detail:
 
 | Layer | Technology |
 |---|---|
@@ -29,13 +28,12 @@ Multiplayer co-op is implemented via the Steam Online Subsystem with full sessio
 | Networking | Steam Online Subsystem , listen-server, session management |
 | Physics | Chaos , physics-driven combat props, destructibles |
 | Replication | UE Actor Replication, `UPROPERTY(Replicated)`, RPCs |
-| Platform | PC (Win64/Linux), Steam SDK |
-| 3D Pipeline | ZBrush , Maya , Substance Painter , UE5 |
-| Shader Authoring | UE Material Editor + HLSL custom nodes |
+| Platform | PC (Win64), Steam SDK |
+| 3D Pipeline | ZBrush , Blender , Substance Painter , UE5 |
 
 ---
 
-## Architecture Overview
+## Core Overview:
 
 ```
 OlympusOfTheHeavens/
@@ -73,9 +71,7 @@ OlympusOfTheHeavens/
 │       └── LobbyWidget/                        # Co-op session, player readiness
 ```
 
----
-
-## Core Systems: Technical Detail
+## Core Systems: 
 
 ### 1. Divine Flame System
 
@@ -353,15 +349,14 @@ Floating land areas serve as the overworld between temples , exploration zones w
 
 | Category | Detail |
 |---|---|
-| Developer count | 1 (solo) |
+| Developer count | 1 |
 | Engine | Unreal Engine 5.3 |
-| Languages | C++, HLSL |
-| 3D Assets | All original , modeled, textured, rigged, animated by developer |
+| Languages | C++ |
 | Boss count | 12 Olympian gods + minion variants |
 | Gameplay systems | 11+ discrete systems (see above) |
 | Multiplayer | Steam co-op, up to 4 players |
-| Platform | PC Windows / Linux (Steam) |
-| Development tools | UE5 Editor, ZBrush, Maya, Blender, Substance Painter, Photoshop, After Effects |
+| Platform | PC Windows (Steam) |
+| Development tools | UE5 Editor, ZBrush, Blender, Substance Painter, Photoshop |
 
 ---
 
@@ -378,11 +373,7 @@ Floating land areas serve as the overworld between temples , exploration zones w
 ---
 
 ## Developer
-
 **Kubrik** , Developer & 3D Artist  
-9 years web development · 7 years 3D modeling · 5 years Unreal Engine C++  
-5 shipped commercial games as sole developer.
-
 [Steam](https://store.steampowered.com/search/?developer=Kubrik) · [ArtStation](https://www.artstation.com/kubrik) · [itch.io](https://kubrik.itch.io)
 
 ![image](https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3358020/702941c01097adfa11c36d6a16a2b609942d80c4/library_hero.jpg?t=1739608354)
